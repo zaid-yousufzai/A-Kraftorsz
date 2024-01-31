@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
+    </script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            //common code for all the field
+
+            let errorstatus = false;
+
+
+
+
+            //validate name function 
+            function validateName() {
+                var nameRegex = /^[a-zA-Z\s]+$/;
+                let name = $("#name").val().trim();
+                if (name.length == 0) {
+                    $(".name-error").text("Name is requires");
+                    $(".name-error").show();
+                    errorstatus = true;
+                    return false;
+                }
+
+                else if (name.length < 3) {
+                    $(".name-error").show();
+                    $(".name-error").text("Name should contains more than 3 characters ");
+
+                    errorstatus = true;
+                    return false;
+                }
+
+                else if (!nameRegex.test(name)) {
+                    $(".name-error").text('Please enter a valid name without numbers and special characters.');
+                    $(".name-error").fadeIn();
+                    errorstatus = true;
+
+                }
+
+                else {
+                    $(".name-error").text("")
+                    $(".name-error").hide();
+                    errorstatus = false;
+
+
+                }
+
+            }
+
+            //when i click on type inside the input box
+            $("#name").keyup(function () {
+
+                validateName();
+            })
+
+
+            //validate email function
+
+            function validateEmail() {
+                let email = $("#email").val().trim();
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+                if (email.length == 0) {
+                    $(".email-error").show();
+                    $(".email-error").text("Email is required");
+                    errorstatus = true;
+                    return false;
+                }
+
+                else if (!emailRegex.test(email)) {
+                    $(".email-error").text('Please enter a valid email address.');
+                    $(".email-error").fadeIn();
+                    errorstatus = true;
+                    return false;
+                }
+
+                else {
+                    $(".email-error").text("");
+                    $(".email-error").hide();
+                    errorstatus = false;
+                }
+            }
+
+            //when i start typing inside the email field
+
+            $("#email").keyup(function () {
+                validateEmail();
+            })
+
+
+            //validate email function
+
+            function validatePhone() {
+                let phone = $("#phone").val().trim();
+                var phoneRegex = /^\d{10}$/;
+
+                if (phone.length == 0) {
+                    $(".phone-error").show();
+                    $(".phone-error").text("Phone number is required");
+                    errorstatus = true;
+                    return false;
+
+                }
+
+                else if (!phoneRegex.test(phone)) {
+                    $(".phone-error").text('Please enter a valid phone number of length ten.');
+                    $(".phone-error").show();
+                    errorstatus = true;
+                }
+
+                else {
+                    $(".phone-error").hide()
+                    // $(".phone-error").text("")
+                    errorstatus = false;
+                }
+            }
+
+            $("#phone").keyup(function () {
+                validatePhone();
+            })
+
+            //function for validating email
+
+            function validateMessage() {
+                let message = $("#message").val().trim();
+
+                if (message.length == 0) {
+                    $(".message-error").show();
+                    $(".message-error").text("Message is required")
+                    errorstatus = true;
+                    return false;
+                }
+
+                else if (message.length > 300) {
+                    $(".message-error").show()
+                    $(".message-error").text("Message does not contains more than 300 characters");
+                    errorstatus = true;
+                    return false;
+                }
+
+                else {
+                    $(".message-error").hide();
+                    $(".message-error").text("");
+                    errorstatus = false;
+                }
+            }
+
+            //here i my typing inside the message field
+
+            $("#message").keyup(function () {
+                validateMessage();
+            })
+
+            //function for validating the checkbox
+
+            function validateCheckbox() {
+                let checkbox = $("#agreeCheckbox")[0]; 
+                if (!checkbox.checked) {
+                    $(".checkbox-error").text("Please agree to the terms and conditions");
+                    $(".checkbox-error").show();
+                    errorstatus = true;
+                    return false;
+                } else {
+                    $(".checkbox-error").text("");
+                    $(".checkbox-error").hide();
+                    errorstatus = false;
+                }
+            }
+
+
+            // Event listener for checkbox change
+            $("#agreeCheckbox").click(function () {
+                validateCheckbox();
+            });
+
+
+            function validateRadio() {
+                let radioValue = $("input[name='contact']:checked").val();
+
+                if (!radioValue) {
+                    $(".radio-error").text("Please select a contact method");
+                    $(".radio-error").show();
+                    errorstatus = true;
+                    return false;
+                } else {
+                    $(".radio-error").text("");
+                    $(".radio-error").hide();
+                    errorstatus = false;
+                }
+            }
+
+            // Event listener for radio button change
+            $("input[name='contact']").change(function () {
+                validateRadio();
+            });
+
+
+
+
+
+
+            $("#cform").submit(function (event) {
+                validateName();
+                validateEmail();
+                validatePhone();
+                validateMessage();
+                validateCheckbox();
+                validateRadio();
+
+                if (errorstatus) {
+                    event.preventDefault(); // Prevent form submission
+                } else {
+                    alert("Name : "+$("#name").val().trim()
+                    +"\n Email : "+$("#email").val().trim()
+                    +"\n Phone : "+$("#phone").val().trim()
+                    +"\n Message : "+$("#message").val().trim()
+                    +"\n ");
+                }
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="col-8 m-5 text-center">
+
+            <form action="" id="cform">
+
+                <div class="form-field">
+                    <label for="">Name</label>
+                    <input type="text" id="name">
+                    <p class="name-error text-danger"></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="">Email</label>
+                    <input type="text" id="email">
+                    <p class="email-error text-danger"></p>
+                </div>
+
+                <div class="form-field">
+                    <label for="">Phone</label>
+                    <input type="text" id="phone">
+                    <p class="phone-error text-danger"></p>
+                </div>
+
+
+                <div class="form-field">
+                    <label for="">Message</label>
+                    <textarea name="" id="message"></textarea>
+                    <p class="message-error text-danger"></p>
+                </div>
+
+
+                <div class="form-field">
+                    <input type="checkbox" id="agreeCheckbox">
+                    <label for="">Terms & Condition</label>
+
+                    <p class="checkbox-error text-danger"></p>
+                </div>
+
+                <div class="form-field">
+                    <input type="radio" id="emailRadio" name="contact">Contact with email
+                    <input type="radio" id="phoneRadio" name="contact">Contact with phone
+                    
+
+                    <p class="radio-error text-danger"></p>
+                </div>
+
+
+
+                <button class="p-2  btn-primary" id="submit" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
